@@ -1,0 +1,17 @@
+{
+    "name": "ride/lib-generator",
+    "description": "Code generator library of the Ride framework",
+    "license": "MIT",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Joris Vandeweerd",
+            "email": "joris@statik.be"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "ride\\library\\generator\\": ["src/"]
+        }
+    }
+}
