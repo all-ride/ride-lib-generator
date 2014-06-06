@@ -79,17 +79,17 @@ class GenericCodeGenerator implements CodeGenerator {
      * @return string Source of the class
      */
     public function generateClass(CodeClass $class) {
+        $this->use = array();
+
         $namespace = null;
         $name = null;
         Code::resolveClassName($class->getName(), $namespace, $name);
 
-        $this->use = $class->getUse();
-
+        $header = $this->generateHeader($class, $name);
+        $use = $this->generateUse($namespace, $class->getMethods());
         $methods = $this->generateMethods($class->getMethods());
         $properties = $this->generateProperties($class->getProperties());
         $constants = $this->generateConstants($class->getConstants());
-        $header = $this->generateHeader($class, $name);
-        $use = $this->generateUse($namespace);
 
         $source = "<?php\n\n";
         if ($namespace) {
@@ -119,8 +119,23 @@ class GenericCodeGenerator implements CodeGenerator {
         return $source;
     }
 
-    protected function generateUse($currentNamespace) {
+    protected function generateUse($currentNamespace, array $methods) {
         $source = '';
+
+        foreach ($methods as $method) {
+            $arguments = $method->getArguments();
+            foreach ($arguments as $argument) {
+                $type = $argument->getType();
+                if (!Code::isUndefinableType($type)) {
+                    $this->useClass($type);
+                }
+            }
+
+            $use = $method->getUse();
+            foreach ($use as $class => $alias) {
+                $this->useClass($class, $alias);
+            }
+        }
 
         ksort($this->use);
 
@@ -317,11 +332,6 @@ class GenericCodeGenerator implements CodeGenerator {
         $source .= $this->indent($method->getSource(), $indent + 1) . "\n";
         $source .= $this->indent('}', $indent);
 
-        $use = $method->getUse();
-        foreach ($use as $class => $alias) {
-            $this->useClass($class, $alias);
-        }
-
         return $source;
     }
 
@@ -344,6 +354,7 @@ class GenericCodeGenerator implements CodeGenerator {
             throw new GeneratorException('Could not generate method: unable to use 2 different aliasses for the same class use import');
         }
 
+        $alias = $this->use[$class];
         if ($alias === null) {
             $namespace = null;
             $name = null;
