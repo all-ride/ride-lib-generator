@@ -60,6 +60,8 @@ class Code {
             case 'double':
             case 'float':
             case 'string':
+            case 'datetime':
+            case 'time':
             case 'mixed':
                 return true;
         }
