@@ -126,8 +126,12 @@ class GenericCodeGenerator implements CodeGenerator {
             $arguments = $method->getArguments();
             foreach ($arguments as $argument) {
                 $type = $argument->getType();
-                if (!Code::isUndefinableType($type)) {
-                    $this->useClass($type);
+
+                $types = explode('|', $type);
+                foreach ($types as $type) {
+                    if (!Code::isUndefinableType($type)) {
+                        $this->useClass($type);
+                    }
                 }
             }
 
@@ -290,7 +294,7 @@ class GenericCodeGenerator implements CodeGenerator {
             $argumentString = '';
 
             $type = $argument->getType();
-            if (!Code::isUndefinableType($type)) {
+            if (strpos($type, '|') === false && !Code::isUndefinableType($type)) {
                 $argumentString .= $this->useClass($type) . ' ';
             }
 
