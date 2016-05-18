@@ -86,7 +86,7 @@ class GenericCodeGenerator implements CodeGenerator {
         Code::resolveClassName($class->getName(), $namespace, $name);
 
         $header = $this->generateHeader($class, $name);
-        $use = $this->generateUse($namespace, $class->getMethods());
+        $use = $this->generateUse($namespace, $class->getUse(), $class->getMethods());
         $methods = $this->generateMethods($class->getMethods());
         $properties = $this->generateProperties($class->getProperties());
         $constants = $this->generateConstants($class->getConstants());
@@ -119,8 +119,12 @@ class GenericCodeGenerator implements CodeGenerator {
         return $source;
     }
 
-    protected function generateUse($currentNamespace, array $methods) {
+    protected function generateUse($currentNamespace, array $use, array $methods) {
         $source = '';
+
+        foreach ($use as $class => $alias) {
+            $this->useClass($class, $alias);
+        }
 
         foreach ($methods as $method) {
             $arguments = $method->getArguments();
