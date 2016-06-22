@@ -87,7 +87,7 @@ class GenericCodeGenerator implements CodeGenerator {
 
         $header = $this->generateHeader($class, $name);
         $use = $this->generateUse($namespace, $class->getUse(), $class->getMethods());
-        $methods = $this->generateMethods($class->getMethods());
+        $methods = $this->generateMethods($class);
         $properties = $this->generateProperties($class->getProperties());
         $constants = $this->generateConstants($class->getConstants());
 
@@ -224,9 +224,9 @@ class GenericCodeGenerator implements CodeGenerator {
 
     protected function generateConstant(CodeVariable $constant, $indent = 1) {
         $source = '';
-
+        $source .= $this->generateVariableDocumentation($constant);
         $source .= 'const ' . $constant->getName();
-        $source .= ' = ' . var_export($property->getDefaultValue(), true);
+        $source .= ' = ' . var_export($constant->getDefaultValue(), true);
         $source .= ';';
 
         return $this->indent($source, $indent);
@@ -247,21 +247,8 @@ class GenericCodeGenerator implements CodeGenerator {
     }
 
     protected function generateProperty(CodeProperty $property, $indent = 1) {
-        $description = $property->getDescription();
-        $type = $property->getType();
         $source = '';
-
-        if ($description || $type) {
-            $source .= "/**\n";
-            if ($description) {
-                $source .= " * " . $description . "\n";
-            }
-            if ($type) {
-                $source .= " * @var " . (strpos($type, '\\') && $type{0} != '\\' ? '\\' : '') . $type . "\n";
-            }
-            $source .= " */\n";
-        }
-
+        $source .= $this->generateVariableDocumentation($property);
         $source .= $property->getScope() . ' $' . $property->getName();
         if ($property->hasDefaultValue()) {
             $source .= ' = ' . $this->generateDefaultValue($property->getDefaultValue());
@@ -271,7 +258,9 @@ class GenericCodeGenerator implements CodeGenerator {
         return $this->indent($source, $indent);
     }
 
-    protected function generateMethods(array $methods) {
+    protected function generateMethods(CodeClass $class) {
+        $methods = $class->getMethods();
+
         if (!$methods) {
             return null;
         }
@@ -279,13 +268,13 @@ class GenericCodeGenerator implements CodeGenerator {
         $source = '';
 
         foreach ($methods as $method) {
-            $source .= $this->generateMethod($method) . "\n\n";
+            $source .= $this->generateMethod($class, $method) . "\n\n";
         }
 
         return $source;
     }
 
-    protected function generateMethod(CodeMethod $method, $indent = 1) {
+    protected function generateMethod(CodeClass $class, CodeMethod $method, $indent = 1) {
         $doc = '';
 
         $description = $method->getDescription();
@@ -334,11 +323,35 @@ class GenericCodeGenerator implements CodeGenerator {
         }
         $header .= 'function ' . $method->getName() . '(';
         $header .= $arguments;
-        $header .= ') {';
+        $header .= ')';
 
-        $source = $this->indent($header, $indent) . "\n";
-        $source .= $this->indent($method->getSource(), $indent + 1) . "\n";
-        $source .= $this->indent('}', $indent);
+        if ($class->isInterface() || $method->isAbstract()) {
+            $source = $this->indent($header . ';', $indent);
+        } else {
+            $source = $this->indent($header . ' {', $indent) . "\n";
+            $source .= $this->indent($method->getSource(), $indent + 1) . "\n";
+            $source .= $this->indent('}', $indent);
+        }
+
+        return $source;
+    }
+
+    protected function generateVariableDocumentation(CodeVariable $variable) {
+        $description = $variable->getDescription();
+        $type = $variable->getType();
+
+        if (!$description && !$type) {
+            return null;
+        }
+
+        $source = "/**\n";
+        if ($description) {
+            $source .= " * " . $description . "\n";
+        }
+        if ($type) {
+            $source .= " * @var " . (strpos($type, '\\') && $type{0} != '\\' ? '\\' : '') . $type . "\n";
+        }
+        $source .= " */\n";
 
         return $source;
     }
