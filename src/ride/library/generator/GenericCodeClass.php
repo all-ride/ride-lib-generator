@@ -87,6 +87,8 @@ class GenericCodeClass implements CodeClass {
             $this->setExtends($extends);
         }
 
+        $this->implements = array();
+
         foreach ($implements as $implementedClass) {
             $this->addImplements($implementedClass);
         }
@@ -105,7 +107,7 @@ class GenericCodeClass implements CodeClass {
      * invalid value has been provided
      */
     public function setName($name) {
-        if (!Code::isValidName($name, false)) {
+        if (!Code::isValidName($name, true)) {
             throw new GeneratorException('Could not set the name of the method: invalid or empty name provided');
         }
 
@@ -214,7 +216,7 @@ class GenericCodeClass implements CodeClass {
             throw new GeneratorException('Could not add use import: invalid className provided');
         }
 
-        if ($alias !== null && !Code::isValidName($className, false)) {
+        if ($alias !== null && !Code::isValidName($alias, false)) {
             throw new GeneratorException('Could not add use import: invalid alias provided');
         }
 
@@ -319,13 +321,17 @@ class GenericCodeClass implements CodeClass {
      * @see CodeVariable
      */
     public function setConstants(array $constants) {
+        $newConstants = array();
+
         foreach ($constants as $index => $constant) {
             if (!$constant instanceof CodeVariable) {
                 throw new GeneratorException('Could not set the class constants: non ride\\library\\generator\\CodeVariable instance detected at index ' . $index);
             }
+
+            $newConstants[$constant->getName()] = $constant;
         }
 
-        $this->constants = $constants;
+        $this->constants = $newConstants;
     }
 
     /**
@@ -393,13 +399,17 @@ class GenericCodeClass implements CodeClass {
      * @see CodeProperty
      */
     public function setProperties(array $properties) {
+        $newProperties = array();
+
         foreach ($properties as $index => $property) {
             if (!$property instanceof CodeProperty) {
                 throw new GeneratorException('Could not set the class properties: non ride\\library\\generator\\CodeProperty instance detected at index ' . $index);
             }
+
+            $newProperties[$property->getName()] = $property;
         }
 
-        $this->properties = $properties;
+        $this->properties = $newProperties;
     }
 
     /**
@@ -466,13 +476,17 @@ class GenericCodeClass implements CodeClass {
      * @see CodeMethod
      */
     public function setMethods(array $methods) {
+        $newMethods = array();
+
         foreach ($methods as $index => $method) {
             if (!$method instanceof CodeMethod) {
                 throw new GeneratorException('Could not set the class methods: non ride\\library\\generator\\CodeMethod instance detected at index ' . $index);
             }
+
+            $newMethods[$method->getName()] = $method;
         }
 
-        $this->methods = $methods;
+        $this->methods = $newMethods;
     }
 
     /**

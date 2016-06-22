@@ -80,7 +80,7 @@ class GenericCodeMethod implements CodeMethod {
         $this->setIsStatic($isStatic);
         $this->setSource($source);
 
-        if ($scope) {
+        if ($scope !== null) {
             $this->setScope($scope);
         }
 
@@ -244,13 +244,17 @@ class GenericCodeMethod implements CodeMethod {
      * @see CodeVariable
      */
     public function setArguments(array $arguments) {
+        $newArguments = array();
+
         foreach ($arguments as $index => $argument) {
             if (!$argument instanceof CodeVariable) {
                 throw new GeneratorException('Could not set the method arguments: non ride\library\generator\CodeVariable instance detected at index ' . $index);
             }
+
+            $newArguments[$argument->getName()] = $argument;
         }
 
-        $this->arguments = $arguments;
+        $this->arguments = $newArguments;
     }
 
     /**
@@ -311,7 +315,7 @@ class GenericCodeMethod implements CodeMethod {
             throw new GeneratorException('Could not add use import: invalid className provided');
         }
 
-        if ($alias !== null && !Code::isValidName($className, false)) {
+        if ($alias !== null && !Code::isValidName($alias, false)) {
             throw new GeneratorException('Could not add use import: invalid alias provided');
         }
 

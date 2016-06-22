@@ -84,11 +84,11 @@ class Code {
         }
 
         if ($isClassAllowed) {
-            if (!preg_match('/([a-zA-Z0-9_\\\\])*/', $name)) {
+            if (!preg_match('/^([a-zA-Z0-9_\\\\])*$/', $name)) {
                 return false;
             }
         } else {
-            if (!preg_match('/([a-zA-Z0-9_])*/', $name)) {
+            if (!preg_match('/^([a-zA-Z0-9_])*$/', $name)) {
                 return false;
             }
         }
