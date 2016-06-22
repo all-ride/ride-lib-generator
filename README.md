@@ -1,4 +1,4 @@
-# Ride: Event Library
+# Ride: Code Generator Library
 
 Code generator library of the PHP Ride framework.
 
@@ -91,9 +91,9 @@ This function will generate the following PHP code:
 ```php
 <?php
 
-namespace vendor\\library;
+namespace vendor\library;
 
-use vendor\\library\\data\\DataContainer;
+use vendor\library\data\DataContainer;
 
 class MyClass implements MyInterface {
 
@@ -101,7 +101,7 @@ class MyClass implements MyInterface {
      * Dummy constant
      * @var string
      */
-    const MY_CONSTANT = \'constant\';
+    const MY_CONSTANT = 'constant';
 
     /**
      * Flag to see if this instance is active
@@ -128,7 +128,7 @@ class MyClass implements MyInterface {
 
     /**
      * Checks the provided data
-     * @param \\vendor\\library\\data\\DataContainer $data Data container to check
+     * @param \vendor\library\data\DataContainer $data Data container to check
      * @return boolean Flag to see if the provided data is valid
      */
     public function checkData(DataContainer $data) {
