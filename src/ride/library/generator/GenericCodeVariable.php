@@ -105,7 +105,7 @@ class GenericCodeVariable implements CodeVariable {
      * invalid value has been provided
      */
     public function setType($type) {
-        if (!Code::isValidName($type, true)) {
+        if (!Code::isValidType($type, true)) {
             throw new GeneratorException('Could not set the type of the variable: invalid or empty string provided');
         }
 

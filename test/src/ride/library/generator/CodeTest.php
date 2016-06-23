@@ -53,6 +53,28 @@ class CodeTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @dataProvider providerIsValidType
+     */
+    public function testIsValidType($expected, $type) {
+        $this->assertEquals($expected, Code::isValidType($type));
+    }
+
+    public function providerIsValidType() {
+        return array(
+            array(true, 'variable'),
+            array(true, 'string|array'),
+            array(true, 'vendor\\MyClass'),
+            array(false, '1noNumberToStart'),
+            array(false, 'testé"(§è!'),
+            array(false, ''),
+            array(false, null),
+            array(false, false),
+            array(false, array()),
+            array(false, $this),
+        );
+    }
+
+    /**
      * @dataProvider providerIsValidName
      */
     public function testIsValidName($expected, $name, $isClassAllowed) {

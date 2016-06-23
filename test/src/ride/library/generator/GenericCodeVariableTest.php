@@ -6,10 +6,10 @@ use \PHPUnit_Framework_TestCase;
 
 class GenericCodeVariableTest extends PHPUnit_Framework_TestCase {
 
-    public function testConstruct() {
-        $name = 'className';
-        $type = 'string';
-
+    /**
+     * @dataProvider providerConstruct
+     */
+    public function testConstruct($name, $type) {
         $codeVariable = new GenericCodeVariable($name, $type);
 
         $this->assertEquals($name, $codeVariable->getName());
@@ -17,6 +17,13 @@ class GenericCodeVariableTest extends PHPUnit_Framework_TestCase {
         $this->assertNull($codeVariable->getDescription());
         $this->assertNull($codeVariable->getDefaultValue());
         $this->assertFalse($codeVariable->hasDefaultValue());
+    }
+
+    public function providerConstruct() {
+        return array(
+            array('name', 'type'),
+            array('value', 'string|array'),
+        );
     }
 
     public function testSetDefaultValue() {
