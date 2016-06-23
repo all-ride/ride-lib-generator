@@ -70,9 +70,35 @@ class Code {
     }
 
     /**
-     * Checks if the provided name if a valid code name
+     * Checks if the provided type is a valid doc type
+     * @param string $type
+     * @return boolean
+     */
+    public static function isValidType($type) {
+        if (!is_string($type) || !$type) {
+            return false;
+        }
+
+        if (strpos($type, '|') === false) {
+            $types = array($type);
+        } else {
+            $types = explode('|', $type);
+        }
+
+        foreach ($types as $type) {
+            if (!self::isValidName($type, true)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the provided name is a valid code name
      * @param string $name
      * @param boolean $isClassAllowed
+     * @return boolean
      */
     public static function isValidName($name, $isClassAllowed = false) {
         if (!is_string($name) || !$name) {
