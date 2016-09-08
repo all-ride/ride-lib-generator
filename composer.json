@@ -12,5 +12,10 @@
         "psr-0": {
             "ride\\library\\generator\\": ["src/"]
         }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "ride\\library\\generator\\": ["test/src/"]
+        }
     }
 }

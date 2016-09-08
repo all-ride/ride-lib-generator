@@ -2,33 +2,35 @@
 
 Code generator library of the PHP Ride framework.
 
-## CodeGenerator
+## What's In This Library
 
-The CodeGenerator interface is the main interface of this library.
+### CodeGenerator
+
+The _CodeGenerator_ interface is the main interface of this library.
 You can use it to create classes, methods, properties and variables.
 After setting up you class, you can pass it to the _generateClass_ method to get the PHP code.
 
-## CodeClass
+### CodeClass
 
-The CodeClass interface is the representation of a class or interface.
+The _CodeClass_ interface is the representation of a class or interface.
 You can add constants, properties and methods to it.
 When done, you can pass it to the _generateClass_ method of a CodeGenerator to get the PHP code.
 
-## CodeMethod
+### CodeMethod
 
-The CodeMethod interface is the representation of a class method.
+The _CodeMethod_ interface is the representation of a class method.
 You can add arguments to it, set whether it's abstract or static, set the source, ...
 When the method is defined, you can add it to a CodeClass instance.
 
-## CodeProperty
+### CodeProperty
 
-The CodeProperty interface is the representation of a class property.
-It extends from the CodeVariable and can thus be used as a variable as well.
+The _CodeProperty_ interface is the representation of a class property.
+It extends from the _CodeVariable_ interface and can thus be used as a variable as well.
 The difference between the two is that a property has a scope.
 
-## CodeVariable
+### CodeVariable
 
-The CodeVariable interface is the representation of a variable.
+The _CodeVariable_ interface is the representation of a variable.
 It can be used for a class constant, a method argument or a return value.
  
 ## Code Sample
@@ -137,3 +139,12 @@ class MyClass implements MyInterface {
 
 }
 ```
+
+## Installation
+
+You can use [Composer](http://getcomposer.org) to install this library.
+
+```
+composer require ride/lib-generator
+```
+
