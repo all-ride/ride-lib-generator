@@ -2,9 +2,9 @@
 
 namespace ride\library\generator;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class GenericCodePropertyTest extends PHPUnit_Framework_TestCase {
+class GenericCodePropertyTest extends TestCase {
 
     public function testConstruct() {
         $name = 'className';

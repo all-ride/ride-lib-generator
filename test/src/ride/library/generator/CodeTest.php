@@ -2,9 +2,9 @@
 
 namespace ride\library\generator;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class CodeTest extends PHPUnit_Framework_TestCase {
+class CodeTest extends TestCase {
 
     /**
      * @dataProvider providerResolveClassName
@@ -24,6 +24,7 @@ class CodeTest extends PHPUnit_Framework_TestCase {
             array('MyClass', null, 'MyClass'),
             array('ride\\library\\StringHelper', 'ride\\library', 'StringHelper'),
             array('\\ride\\library\\StringHelper', '\\ride\\library', 'StringHelper'),
+            array('\StringHelper', null, 'StringHelper'),
         );
     }
 
