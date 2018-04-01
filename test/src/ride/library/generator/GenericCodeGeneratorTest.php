@@ -2,9 +2,9 @@
 
 namespace ride\library\generator;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class GenericCodeGeneratorTest extends PHPUnit_Framework_TestCase {
+class GenericCodeGeneratorTest extends TestCase {
 
     public function setUp() {
         $this->generator = new GenericCodeGenerator();

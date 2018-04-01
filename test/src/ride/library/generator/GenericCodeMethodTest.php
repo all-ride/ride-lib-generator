@@ -2,9 +2,9 @@
 
 namespace ride\library\generator;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class GenericCodeMethodTest extends PHPUnit_Framework_TestCase {
+class GenericCodeMethodTest extends TestCase {
 
     public function testMinimalConstruct() {
         $name = 'method';

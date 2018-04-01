@@ -2,9 +2,9 @@
 
 namespace ride\library\generator;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class GenericCodeClassTest extends PHPUnit_Framework_TestCase {
+class GenericCodeClassTest extends TestCase {
 
     public function testMinimalConstruct() {
         $name = 'className';
@@ -94,10 +94,30 @@ class GenericCodeClassTest extends PHPUnit_Framework_TestCase {
         $codeClass->setDescription($description);
     }
 
+    public function testSetDescription() {
+        $codeClass = new GenericCodeClass('name');
+        $codeClass->setDescription('description');
+
+        $this->assertSame('description', $codeClass->getDescription());
+    }
+
+    public function testRemoveImplementsShouldReturnFalse() {
+        $codeClass = new GenericCodeClass('name');
+
+        $this->assertFalse($codeClass->removeImplements('implementClass'));
+    }
+
+    public function testRemoveImplementsShouldReturnTrue() {
+        $codeClass = new GenericCodeClass('name');
+        $codeClass->addImplements('implementClass');
+
+        $this->assertTrue($codeClass->removeImplements('implementClass'));
+    }
+
     public function providerSetDescriptionThrowsExceptionOnInvalidValue() {
         return array(
             array(array()),
-            array($this),
+            array($this)
         );
     }
 
