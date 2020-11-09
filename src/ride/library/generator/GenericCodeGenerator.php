@@ -298,7 +298,7 @@ class GenericCodeGenerator implements CodeGenerator {
             }
 
             $arguments[$argumentName] = $argumentString;
-            $doc .= '@param ' . (strpos($type, '\\') && $type{0} != '\\' ? '\\' : '') . $type . ' $' . $argument->getName() . ' ' . $argument->getDescription() . "\n";
+            $doc .= '@param ' . (strpos($type, '\\') && $type[0] != '\\' ? '\\' : '') . $type . ' $' . $argument->getName() . ' ' . $argument->getDescription() . "\n";
         }
         $arguments = implode(', ', $arguments);
 
@@ -307,7 +307,7 @@ class GenericCodeGenerator implements CodeGenerator {
             $doc .= "@return null\n";
         } else {
             $type = $returnValue->getType();
-            $doc .= '@return ' . (strpos($type, '\\') && $type{0} != '\\' ? '\\' : '') . $type . ' ' . $returnValue->getDescription() . "\n";
+            $doc .= '@return ' . (strpos($type, '\\') && $type[0] != '\\' ? '\\' : '') . $type . ' ' . $returnValue->getDescription() . "\n";
         }
 
         $header = '';
@@ -349,7 +349,7 @@ class GenericCodeGenerator implements CodeGenerator {
             $source .= " * " . $description . "\n";
         }
         if ($type) {
-            $source .= " * @var " . (strpos($type, '\\') && $type{0} != '\\' ? '\\' : '') . $type . "\n";
+            $source .= " * @var " . (strpos($type, '\\') && $type[0] != '\\' ? '\\' : '') . $type . "\n";
         }
         $source .= " */\n";
 

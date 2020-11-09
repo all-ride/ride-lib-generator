@@ -105,7 +105,7 @@ class Code {
             return false;
         }
 
-        if (is_numeric($name{0})) {
+        if (is_numeric($name[0])) {
             return false;
         }
 
